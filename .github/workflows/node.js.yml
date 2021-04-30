@@ -38,7 +38,7 @@ jobs:
         context: ./
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/one2onetool:${{ env.BRANCH }}
+        tags: ${{ secrets.DOCKER_USERNAME }}/one2onetool:${{ env.BRANCH }}
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
