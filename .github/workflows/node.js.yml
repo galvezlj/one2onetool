@@ -58,6 +58,7 @@ jobs:
         aws-region: ap-southeast-1
     - run: pwd
     - run: ls
+    - run: which aws-iam-authenticator
     - name: Trigger deploy
       uses: Consensys/kubernetes-action@master
       env:
