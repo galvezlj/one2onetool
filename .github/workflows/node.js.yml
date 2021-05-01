@@ -64,11 +64,11 @@ jobs:
     - run: ls
     - run: which aws-iam-authenticator
     - name: Trigger deploy
-      uses: Consensys/kubernetes-action@master
+      uses: koslib/helm-eks-action@master
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        args: apply -f deploy/deploy.yaml -f deploy/service.yaml
+        command: kubectl apply -f deploy/deploy.yaml -f deploy/service.yaml
 
   # alert:
   #   needs: build
