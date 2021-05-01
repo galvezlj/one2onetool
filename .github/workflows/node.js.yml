@@ -58,7 +58,6 @@ jobs:
         aws-region: ap-southeast-1
     - run: pwd
     - run: ls
-    - run: aws-iam-authenticator version
     - name: Trigger deploy
       uses: koslib/helm-eks-action@master
       env:
