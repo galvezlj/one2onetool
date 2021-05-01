@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: one2onetool-deployment
+  labels:
+    app: one2onetool
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: one2onetool
+  template:
+    metadata:
+      labels:
+        app: one2onetool
+    spec:
+      containers:
+      - name: one2onetool
+        imagePullPolicy: Always
+        image: galvezlj/one2onetool:{{ .Values.stage }}
+        ports:
+        - containerPort: 3000
+        env:
+{{ if eq .Values.stage "release" }}
+        - name: DATA_FILE
+          value: Questions.json
+{{ else }}
+        - name: DATA_FILE
+          value: Questions-test.json
+{{ end }}
