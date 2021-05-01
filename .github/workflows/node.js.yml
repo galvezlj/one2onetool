@@ -8,7 +8,7 @@ on:
     branches: [ staging ]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -21,10 +21,6 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
 
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
     - name: Setup Environment
       run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
       
@@ -46,18 +42,16 @@ jobs:
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
 
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-southeast-1
-    - run: pwd
-    - run: ls
     - name: Trigger deploy
       uses: koslib/helm-eks-action@master
       env:
@@ -65,10 +59,10 @@ jobs:
       with:
         command: kubectl apply -f deploy/deploy.yaml -f deploy/service.yaml
 
-  # alert:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
+  alert:
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    steps:
     - name: Send mail
       if: failure()
       uses: dawidd6/action-send-mail@v2
