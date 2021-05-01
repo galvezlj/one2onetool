@@ -17,6 +17,9 @@ spec:
       containers:
       - name: one2onetool
         imagePullPolicy: Always
-        image: galvezlj/one2onetool:staging
+        image: galvezlj/one2onetool:${BRANCH}
         ports:
         - containerPort: 3000
+        env:
+        - name: DATA_FILE
+          value: Questions-test.json
