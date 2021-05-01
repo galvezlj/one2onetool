@@ -53,7 +53,7 @@ jobs:
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        command: kubectl apply -f deploy/deploy.yaml -f deploy/service.yaml
+        command: helm template helm --set stage=${{ env.BRANCH }} --output-dir . && kubectl apply -f one2onetool/templates/deploy.yaml -f one2onetool/templates/service.yaml
 
     - name: Send mail
       if: failure()
