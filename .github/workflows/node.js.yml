@@ -50,10 +50,6 @@ jobs:
   #   needs: build
   #   runs-on: ubuntu-latest
   #   steps:
-    - name: aws-iam-authenticator installer
-      uses: prepor/action-aws-iam-authenticator@1
-      with:
-        version: 0.4.0
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -62,7 +58,7 @@ jobs:
         aws-region: ap-southeast-1
     - run: pwd
     - run: ls
-    - run: which aws-iam-authenticator
+    - run: aws-iam-authenticator version
     - name: Trigger deploy
       uses: koslib/helm-eks-action@master
       env:
