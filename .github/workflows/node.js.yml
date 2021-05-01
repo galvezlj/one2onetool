@@ -59,6 +59,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
     - run: pwd
+    - run: ls
     - name: Trigger deploy
       uses: Consensys/kubernetes-action@master
       env:
