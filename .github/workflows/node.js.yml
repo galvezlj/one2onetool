@@ -22,7 +22,7 @@ jobs:
     - run: npm test
 
     - name: Setup Environment
-    - run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV && echo "ENV=`[ ${BRANCH} = staging ] && echo uat || echo prod`" >> $GITHUB_ENV
+      run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV && echo "ENV=`[ ${BRANCH} = staging ] && echo uat || echo prod`" >> $GITHUB_ENV
       
     - name: Login to DockerHub
       uses: docker/login-action@v1
