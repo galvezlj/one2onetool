@@ -6,23 +6,23 @@ metadata:
 {{ else }}
   namespace: uat
 {{ end }}
-  name: one2onetool-deployment
+  name: {{ .Values.name }}-deployment
   labels:
-    app: one2onetool
+    app: {{ .Values.name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: one2onetool
+      app: {{ .Values.name }}
   template:
     metadata:
       labels:
-        app: one2onetool
+        app: {{ .Values.name }}
     spec:
       containers:
-      - name: one2onetool
+      - name: {{ .Values.name }}
         imagePullPolicy: Always
-        image: galvezlj/one2onetool:{{ .Values.stage }}
+        image: galvezlj/{{ .Values.name }}:{{ .Values.stage }}
         ports:
         - containerPort: 3000
         env:
