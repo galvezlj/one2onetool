@@ -26,7 +26,6 @@ jobs:
         echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV && 
         if [ ${GITHUB_REF##*/} = "staging" ]; then ENV="uat"; else ENV="prod"; fi && 
         echo "ENV=${ENV}" >> $GITHUB_ENV &&
-        echo {ENV}
       
     - name: Login to DockerHub
       uses: docker/login-action@v1
@@ -57,7 +56,11 @@ jobs:
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        command: helm template helm --set stage=${{ env.BRANCH }} --output-dir . && echo "external link:" && kubectl apply -f one2onetool/templates/deploy.yaml -f one2onetool/templates/service.yaml && kubectl get service -n ${{ env.ENV }} | grep LoadBalancer | tr -s ' ' | cut -d' ' -f 4
+        command: |
+          helm template helm --set stage=${{ env.BRANCH }} --output-dir . && 
+          kubectl apply -f one2onetool/templates/deploy.yaml -f one2onetool/templates/service.yaml && 
+          echo "external link:" && 
+          kubectl get service -n ${{ env.ENV }} | grep LoadBalancer | tr -s ' ' | cut -d' ' -f 4
 
     - name: Send mail
       if: failure()
