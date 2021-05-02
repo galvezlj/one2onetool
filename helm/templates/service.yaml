@@ -5,7 +5,7 @@ metadata:
 {{ if eq .Values.stage "release" }}
   namespace: prod
 {{ else }}
-  namespace: staging
+  namespace: uat
 {{ end }}
 spec:
   externalTrafficPolicy: Cluster
