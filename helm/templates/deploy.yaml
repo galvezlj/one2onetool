@@ -1,6 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+{{ if eq .Values.stage "release" }}
+  namespace: prod
+{{ else }}
+  namespace: staging
+{{ end }}
   name: one2onetool-deployment
   labels:
     app: one2onetool
